@@ -8,8 +8,8 @@
           <img src="/logo.png" alt="CSU Logo" class="sidebar-logo">
         </div>
         <div class="sidebar-brand-text">
-          <h2>GSO Contract Management</h2>
-          <small>General Services Office</small>
+          <h2>CSU Contract<br>Management</h2>
+          <small>Caraga State University</small>
         </div>
       </div>
       <nav>
@@ -39,16 +39,6 @@
 
     <!-- ══ MAIN ══ -->
     <div class="main">
-      <header class="topbar">
-        <h1>{{ pageTitle }}</h1>
-        <div class="topbar-right">
-          <button
-            v-if="tab !== 'saved' && tab !== 'view'"
-            class="btn btn-new-contract"
-            @click="openCreate"
-          >+ New Contract</button>
-        </div>
-      </header>
 
       <div class="content">
 
@@ -116,7 +106,7 @@
                         </td>
                       </tr>
                       <tr v-for="c in recent" :key="c.id">
-                        <td><b>{{ c.last_name }}</b></td>
+                        <td>{{ c.last_name }}</td>
                         <td>{{ c.first_name }}</td>
                         <td>{{ c.middle_initial }}</td>
                         <td>{{ c.start_date }}</td>
@@ -137,6 +127,9 @@
 
         <!-- ══════ ALL CONTRACTS ══════ -->
         <div v-else-if="tab === 'contracts'" style="padding:24px">
+          <div class="page-top-bar">
+            <button class="btn btn-new-contract" @click="openCreate">+ New Contract</button>
+          </div>
           <div class="card">
             <div class="card-header">
               <h3>All Contracts</h3>
@@ -183,7 +176,7 @@
                       </td>
                     </tr>
                     <tr v-for="c in contracts" :key="c.id">
-                      <td><b>{{ c.last_name }}</b></td>
+                      <td>{{ c.last_name }}</td>
                       <td>{{ c.first_name }}</td>
                       <td>{{ c.middle_initial }}</td>
                       <td>{{ c.position_title || '—' }}</td>
@@ -208,6 +201,9 @@
 
         <!-- ══════ SAVED FILES ══════ -->
         <div v-else-if="tab === 'saved'" style="padding:24px">
+          <div class="page-top-bar">
+            <button class="btn btn-new-contract" @click="openCreate">+ New Contract</button>
+          </div>
           <div v-if="loadingSaved" class="loading"><div class="spinner"></div><p>Loading...</p></div>
           <template v-else>
 
@@ -216,7 +212,7 @@
               <div class="card">
                 <div class="card-header">
                   <h3>Saved Files — Contract Folders</h3>
-                  <span style="font-size:.77rem;opacity:.85">Click a folder to see saved HTML files</span>
+
                 </div>
                 <div class="card-body">
                   <div v-if="!allContracts.length" class="empty-state">
@@ -799,18 +795,17 @@ html,body{background:#fff;font-family:Arial,sans-serif;width:100%;height:100%}
 .tor-label{background:#f0f0f0;font-weight:bold;width:35%;font-size:10pt}
 @page{
   margin:0;
-  size:8.27in 11.69in;
+  size:8.5in 13in;
 }
-@page :first { margin-top: 0; }
-@page :left  { margin: 0; }
-@page :right { margin: 0; }
-/* Remove browser-injected header/footer content */
-@top-left   { content: none !important; }
-@top-center { content: none !important; }
-@top-right  { content: none !important; }
-@bottom-left   { content: none !important; }
-@bottom-center { content: none !important; }
-@bottom-right  { content: none !important; }
+@page:first { margin:0; }
+@page:left  { margin:0; }
+@page:right { margin:0; }
+@top-left    { content:none !important; }
+@top-center  { content:none !important; }
+@top-right   { content:none !important; }
+@bottom-left   { content:none !important; }
+@bottom-center { content:none !important; }
+@bottom-right  { content:none !important; }
 </style>
 </head>
 <body>
@@ -842,13 +837,10 @@ function downloadFile(f) {
   })
 
   const html = buildSavedHTML(clone.outerHTML, c, filename)
-  const printWin = window.open('', '_blank', 'width=900,height=800')
+  const printWin = window.open('', '_blank', 'toolbar=no,menubar=no,location=no,status=no,scrollbars=yes,width=900,height=800')
   printWin.document.write(html)
   printWin.document.close()
-  printWin.onload = () => {
-    printWin.focus()
-    printWin.print()
-  }
+  printWin.onload = () => { printWin.document.title = ''; printWin.focus(); printWin.print() }
   toast('Opening PDF save window: ' + filename + '.pdf')
 }
 

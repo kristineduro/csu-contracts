@@ -108,7 +108,7 @@
       <div class="modal-footer">
         <button class="btn btn-outline" @click="$emit('close')">Cancel</button>
         <button class="btn btn-green" :disabled="saving" @click="submit">
-          {{ saving ? '⏳ Saving...' : (contract ? '✅ Update Contract' : '✅ Create Contract') }}
+          {{ saving ? '⏳ Saving...' : (contract ? 'Update Contract' : 'Create Contract') }}
         </button>
       </div>
     </div>
