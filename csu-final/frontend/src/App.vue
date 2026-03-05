@@ -707,10 +707,11 @@ async function saveFile() {
     const html = buildSavedHTML(pagesHTML, c, filename)
 
     // Open in new window and auto-print (user can Save as PDF)
-    const printWin = window.open('', '_blank', 'width=900,height=800')
+    const printWin = window.open('', '_blank', 'toolbar=no,menubar=no,location=no,status=no,scrollbars=yes,width=900,height=800')
     printWin.document.write(html)
     printWin.document.close()
     printWin.onload = () => {
+      printWin.document.title = ''
       printWin.focus()
       printWin.print()
     }
@@ -748,10 +749,10 @@ function printContract() {
   const c = viewingContract.value
   const filename = c.last_name + '_' + c.first_name + '_' + c.contract_no
   const html = buildSavedHTML(clone.outerHTML, c, filename)
-  const printWin = window.open('', '_blank', 'width=900,height=800')
+  const printWin = window.open('', '_blank', 'toolbar=no,menubar=no,location=no,status=no,scrollbars=yes,width=900,height=800')
   printWin.document.write(html)
   printWin.document.close()
-  printWin.onload = () => { printWin.focus(); printWin.print() }
+  printWin.onload = () => { printWin.document.title = ''; printWin.focus(); printWin.print() }
 }
 
 function buildSavedHTML(pagesHTML, c, filename) {
@@ -760,7 +761,7 @@ function buildSavedHTML(pagesHTML, c, filename) {
 <html>
 <head>
 <meta charset="utf-8">
-<title>${title}</title>
+<title></title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:#fff;font-family:Arial,sans-serif;width:100%;height:100%}
@@ -796,7 +797,20 @@ html,body{background:#fff;font-family:Arial,sans-serif;width:100%;height:100%}
 .tor-table{width:100%;border-collapse:collapse;font-size:10pt;margin-top:5px;font-family:Arial,sans-serif}
 .tor-table td{border:1px solid #555;padding:4px 7px;vertical-align:top;font-size:10pt;font-family:Arial,sans-serif}
 .tor-label{background:#f0f0f0;font-weight:bold;width:35%;font-size:10pt}
-@page{margin:0;size:8.5in 13in}
+@page{
+  margin:0;
+  size:8.27in 11.69in;
+}
+@page :first { margin-top: 0; }
+@page :left  { margin: 0; }
+@page :right { margin: 0; }
+/* Remove browser-injected header/footer content */
+@top-left   { content: none !important; }
+@top-center { content: none !important; }
+@top-right  { content: none !important; }
+@bottom-left   { content: none !important; }
+@bottom-center { content: none !important; }
+@bottom-right  { content: none !important; }
 </style>
 </head>
 <body>
