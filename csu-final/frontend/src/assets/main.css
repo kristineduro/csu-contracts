@@ -126,7 +126,7 @@ body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: v
 .btn-new-contract { background: #003300; color: #fff; border: none; }
 .btn-new-contract:hover { background: #004d00; transform: translateY(-1px); }
 .btn-outline { background: var(--white); color: #2e7d32; border: 1.5px solid #2e7d32; }
-.btn-outline:hover { background: #922b21; transform: translateY(-1px); border-color: #1b5e20; }
+.btn-outline:hover { background: ##922b21; transform: translateY(-1px); border-color: #1b5e20; }
 .btn-gold { background: #d4a017; color: #fff; border: none; }
 .btn-gold:hover { background: #b8860b; transform: translateY(-1px); }
 .btn-red { background: var(--red); color: #fff; }
