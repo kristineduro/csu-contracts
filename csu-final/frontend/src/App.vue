@@ -8,7 +8,7 @@
           <img src="/logo.png" alt="CSU Logo" class="sidebar-logo">
         </div>
         <div class="sidebar-brand-text">
-          <h2>CSU Contract<br>Management</h2>
+          <h2>GSO Contract<br>Management</h2>
           <small>Caraga State University</small>
         </div>
       </div>

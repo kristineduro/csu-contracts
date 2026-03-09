@@ -28,7 +28,6 @@ body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: v
 .app-wrapper { display: flex; min-height: 100vh; }
 
 /* ── ANIMATIONS ── */
-@keyframes logoFloat { 0%,100%{transform:scale(1);} 50%{transform:scale(1.06);} }
 @keyframes cardPop   { 0%{transform:scale(1);}50%{transform:scale(1.03);}100%{transform:scale(1);} }
 @keyframes btnPop    { 0%{transform:scale(1);}40%{transform:scale(.94);}100%{transform:scale(1);} }
 
@@ -62,7 +61,15 @@ body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: v
   width: 100%; height: 100%; object-fit: contain; display: block;
   mix-blend-mode: lighten;
 }
-.sidebar-brand-text h2 { font-size: .88rem; line-height: 1.35; font-weight: 700; }
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&display=swap');
+
+.sidebar-brand-text h2 {
+  font-size: 19px;
+  line-height: 1.35;
+  font-weight: 800;
+  font-family: 'Playfair Display', serif;
+  color: white;
+}
 .sidebar-brand-text small { display: block; font-size: .58rem; opacity: .7; text-transform: uppercase; letter-spacing: .08em; margin-top: 3px; }
 
 /* ── NAV LINKS - solid, no glow ── */
@@ -161,7 +168,6 @@ body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: v
 .stat-draft:hover  { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,.2); }
 .stat-expired:hover{ transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,.2); }
 .stat-icon { display: flex; align-items: center; justify-content: center; opacity: .92; }
-.stat-card h2 { font-size: 2.2rem; font-weight: 700; color: #fff; line-height: 1; }
 .stat-card p  { font-size: .72rem; color: rgba(255,255,255,.85); text-transform: uppercase; letter-spacing: .06em; margin-top: 3px; font-weight: 600; }
 
 /* ── TABLE ── */

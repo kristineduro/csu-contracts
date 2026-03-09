@@ -177,7 +177,7 @@
               </tr>
             </table>
             <div style="text-align:right;margin-top:16px;padding-right:8px">
-              <div style=";min-width:210px;text-align:center">
+              <div style="min-width:210px ;text-align:center">
                 <div style="margin-bottom:22px;font-size:10pt;font-family:Arial,sans-serif" contenteditable="true" spellcheck="false">Noted by:</div>
                 <div style="padding-top:0;width:200px;margin:0 auto;">                  <div style="font-weight:bold;font-size:10pt;font-family:Arial,sans-serif" contenteditable="true" spellcheck="false">{{ c.noted_by_name || 'ENGR. MARIEL M. DELO' }}</div>
                   <div style="font-size:9pt;font-family:Arial,sans-serif" contenteditable="true" spellcheck="false">{{ c.noted_by_position || 'Director, GSO' }}</div>
@@ -239,7 +239,7 @@
             </div>
           </div>
           <div class="page-num-bottom">Page 5 of 5</div>
-        </div>
+        </div>fi
       </div>
 
     </div><!-- /bond-pages -->

@@ -10,13 +10,12 @@ import {
 } from 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBc9z4M6Ws0p43zZN_nw0K7EVZyuDnRs-w",
-  authDomain: "csu-contracts.firebaseapp.com",
-  projectId: "csu-contracts",
-  storageBucket: "csu-contracts.firebasestorage.app",
-  messagingSenderId: "299016645485",
-  appId: "1:299016645485:web:3d7664d10035ce55f94864",
-  measurementId: "G-P5QW3FNK7B"
+  apiKey: "AIzaSyBqIeD3XC5nLSdKkPMhkcUReU532GrMPyA",
+  authDomain: "gso-contracts.firebaseapp.com",
+  projectId: "gso-contracts",
+  storageBucket: "gso-contracts.firebasestorage.app",
+  messagingSenderId: "461401507866",
+  appId: "1:461401507866:web:45786a3bb80b10d3afe9a3"
 };
 
 const app = initializeApp(firebaseConfig)
@@ -27,7 +26,6 @@ export const db = getFirestore(app)
 // CONTRACTS
 // ================================================================
 
-// 🔥 FAST — only one query
 export async function getAllContracts(filters) {
   const q = query(collection(db, 'contracts'), orderBy('created_at', 'desc'))
   const snap = await getDocs(q)
@@ -51,12 +49,10 @@ export async function getAllContracts(filters) {
 }
 
 
-// 🔥 OPTIMIZED CONTRACT NUMBER SYSTEM
 export async function createContract(data) {
   const year = new Date().getFullYear()
   const counterRef = doc(db, 'counters', 'contracts_' + year)
 
-  // get current counter
   const counterSnap = await getDoc(counterRef)
 
   let nextNumber = 1
@@ -69,7 +65,7 @@ export async function createContract(data) {
   }
 
   const contract_no =
-    'CSU-' + year + '-' + String(nextNumber).padStart(3, '0')
+    'GSO-' + year + '-' + String(nextNumber).padStart(3, '0')
 
   const ref = await addDoc(collection(db, 'contracts'), {
     ...data,
@@ -96,7 +92,7 @@ export async function deleteContract(id) {
 
 
 // ================================================================
-// FAST STATS (NO FULL RELOAD NEEDED AFTER SAVE)
+// FAST STATS
 // ================================================================
 
 export async function getStats() {
@@ -122,7 +118,7 @@ export async function getStats() {
 
 
 // ================================================================
-// SAVED FILES (UNCHANGED - ALREADY OK)
+// SAVED FILES
 // ================================================================
 
 export async function getSavedFiles(contractId) {
