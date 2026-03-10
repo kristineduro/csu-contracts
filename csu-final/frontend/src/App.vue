@@ -766,8 +766,24 @@ html,body{background:#fff;font-family:Arial,sans-serif;width:100%;height:100%}
 .bond-pages{display:block;width:100%}
 .bond-page{background:#fff;width:8.5in;height:13in;position:relative;font-family:Arial,sans-serif;font-size:10pt;line-height:1.42;overflow:hidden;page-break-after:always;break-after:page;display:flex;flex-direction:column}
 .bond-page:last-child{page-break-after:avoid;break-after:avoid}
-.right-sigs{position:absolute;right:0;top:110px;bottom:36px;width:80px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;z-index:10}
-.right-sig{display:flex;flex-direction:row;align-items:center;justify-content:center}
+.right-sigs {
+  position: absolute;
+  right: 0;
+  top: 110px;
+  bottom: 36px;
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 10;
+}
+  .right-sig {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
 .right-sig-line {
   border-left: 0.5px solid #333;
   height: 130px;
@@ -775,9 +791,21 @@ html,body{background:#fff;font-family:Arial,sans-serif;width:100%;height:100%}
   flex-shrink: 0;
   margin-right: 0;
   margin-left: 10px;   /* remove right margin */
-}.right-sig-inner{display:flex;align-items:center;justify-content:center}
-.right-sig-text{writing-mode:vertical-rl;transform:rotate(180deg);font-size:7pt;line-height:1.3;font-family:"Times New Roman",Times,serif;text-align:center;padding:0;border:none}
-
+}
+.right-sig-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.right-sig-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 7pt;
+  line-height: 1.3;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  border: none;
+}
 .page-content{padding-right:130px; padding-left: 35px; padding-bottom:35px; position:relative;z-index:5;height:13in;display:flex;flex-direction:column;overflow:hidden}
 .page-header{width:100%}.page-header img{width:100%;height:auto;display:block}
 .page-num{display:none}
