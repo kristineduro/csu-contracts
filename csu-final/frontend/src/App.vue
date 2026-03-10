@@ -766,28 +766,9 @@ html,body{background:#fff;font-family:Arial,sans-serif;width:100%;height:100%}
 .bond-pages{display:block;width:100%}
 .bond-page{background:#fff;width:8.5in;height:13in;position:relative;font-family:Arial,sans-serif;font-size:10pt;line-height:1.5;overflow:hidden;page-break-after:always;break-after:page;display:flex;flex-direction:column}
 .bond-page:last-child{page-break-after:avoid;break-after:avoid}
-.right-sigs{
-  position:absolute;
-  right:0;
-  top:110px;
-  width:80px;
-  display:flex;
-  flex-direction:column;
-  gap:120px; /* fixed spacing */
-  pointer-events:none;
-  z-index:10;
-}
+.right-sigs{position:absolute;right:0;top:110px;bottom:36px;width:80px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;z-index:10}
 .right-sig{display:flex;flex-direction:row;align-items:center;justify-content:center}
-.right-sig-line{
-  border-left:1px solid #333;
-  height:130px;
-  margin-left:50px;
-}
-  @media print{
-  .right-sigs{
-    gap:120px;
-  }
-}
+.right-sig-line{border-left:1px solid #333;height:130px;width:0;flex-shrink:0;margin-left:50px}
 .right-sig-inner{display:flex;align-items:center;justify-content:center}
 .right-sig-text{writing-mode:vertical-rl;transform:rotate(180deg);font-size:7pt;line-height:1.3;font-family:Arial,sans-serif;text-align:center;border:none}
 .page-content{padding-right:36pt;position:relative;z-index:5;height:13in;display:flex;flex-direction:column;overflow:hidden}
