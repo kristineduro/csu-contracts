@@ -332,11 +332,9 @@
 
               <!-- Contract info -->
               <div class="card">
-                <div class="card-header"><h3>Contract Info</h3></div>
                 <div class="card-body" style="font-size:.84rem;line-height:2.2">
-                  <div><b>No:</b> {{ viewingContract.contract_no }}</div>
-                  <div><b>Last Name:</b> <b style="color:var(--green)">{{ viewingContract.last_name }}</b></div>
-                  <div><b>First Name:</b> {{ viewingContract.first_name }} {{ viewingContract.middle_initial }}</div>
+                  <div><b>Last Name:</b> <b style="color:var(--black)">{{ viewingContract.last_name }}</b></div>
+                  <div><b>First Name:</b> <b style="color:var(--black)">{{ viewingContract.first_name }}</b></div>
                   <div><b>Status:</b> <span :class="'badge badge-' + viewingContract.status">{{ viewingContract.status }}</span></div>
                   <div><b>Period:</b> {{ viewingContract.start_date }} – {{ viewingContract.end_date }}</div>
                   <div><b>Rate:</b> ₱{{ fmtN(viewingContract.daily_rate) }}/day</div>
@@ -466,13 +464,17 @@ function scaleContract() {
     if (!el) return
     const parent = el.parentElement
     if (!parent) return
+    // Scale to fit available width — bond-page is always 816px wide
     const available = parent.clientWidth - 10
-    const scale = Math.min(1, available / 830)
+    const scale = Math.min(1, available / 816)
     el.style.transform = `scale(${scale})`
     el.style.transformOrigin = 'top left'
     el.style.width = '816px'
     el.style.display = 'block'
-    parent.style.minHeight = Math.round(1248 * scale) + 'px'
+    // Total height = all pages (each 1248px) + gaps between them
+    const pages = el.querySelectorAll ? el.querySelectorAll('.bond-page').length : 5
+    const totalH = pages * 1248 + (pages - 1) * 14  // 14px gap between pages
+    parent.style.minHeight = Math.round(totalH * scale) + 'px'
   })
 }
 
@@ -766,25 +768,39 @@ html,body{background:#fff;font-family:Arial,sans-serif;width:100%;height:100%}
 .bond-page:last-child{page-break-after:avoid;break-after:avoid}
 .right-sigs{position:absolute;right:0;top:110px;bottom:36px;width:80px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;z-index:10}
 .right-sig{display:flex;flex-direction:row;align-items:center;justify-content:center}
-.right-sig-line{border-left:1px solid #333;height:130px;width:0;flex-shrink:0;margin-right:5px}
-.right-sig-inner{display:flex;align-items:center;justify-content:center}
+.right-sig-line {
+  border-left: 0.5px solid #333;
+  height: 130px;
+  width: 0;
+  flex-shrink: 0;
+  margin-right: 0;
+  margin-left: 10px;   /* remove right margin */
+}.right-sig-inner{display:flex;align-items:center;justify-content:center}
 .right-sig-text{writing-mode:vertical-rl;transform:rotate(180deg);font-size:7pt;line-height:1.3;font-family:"Times New Roman",Times,serif;text-align:center;padding:0;border:none}
-.page-content{padding-right:86px;position:relative;z-index:5;height:13in;display:flex;flex-direction:column;overflow:hidden}
+
+.page-content{padding-right:130px; padding-left: 35px; padding-bottom:35px; position:relative;z-index:5;height:13in;display:flex;flex-direction:column;overflow:hidden}
 .page-header{width:100%}.page-header img{width:100%;height:auto;display:block}
 .page-num{display:none}
-.page-num-bottom{position:absolute;bottom:4px;right:72pt;font-size:8pt;color:#333;font-family:Arial,sans-serif;z-index:10}
-.page-body{padding:4pt 8pt 8pt 72pt;font-size:12pt;font-family:"Times New Roman",Times,serif;position:relative;z-index:5}
-.page-body p{margin:0;text-align:justify;font-family:Arial,sans-serif;font-size:10pt}
-.p-title{text-align:center!important;font-size:14pt;font-weight:bold;letter-spacing:0;margin-bottom:6pt!important;margin-top:4pt!important;font-family:"Times New Roman",Times,serif}
-.p-center{text-align:center!important;font-size:12pt;margin-top:4pt!important;font-family:"Times New Roman",Times,serif}
-.p-body,.p-body-left{text-indent:31.5pt;margin-top:8pt!important;text-align:justify;font-size:12pt;font-family:"Times New Roman",Times,serif}
-.p-parties,.p-parties-left{padding-left:31.5pt;padding-right:0;line-height:1.5;margin-top:0!important;text-align:justify;font-size:12pt;font-family:"Times New Roman",Times,serif}
-.p-whereas,.p-whereas-left{padding-left:81pt;text-indent:-45pt;margin-top:2pt!important;text-align:justify;font-size:12pt;line-height:1.4;font-family:"Times New Roman",Times,serif}
-.p-now-therefore{padding-left:0;margin-top:8pt!important;text-align:justify;font-size:12pt;font-family:"Times New Roman",Times,serif}
-.p-num,.p-num-left{padding-left:0;text-indent:0;margin-top:6pt!important;font-size:12pt;font-family:"Times New Roman",Times,serif}
-.p-num-body{padding-left:36pt;text-indent:0;margin-top:2pt!important;text-align:justify;font-size:12pt;font-family:"Times New Roman",Times,serif}
-.p-list{padding-left:54pt;text-indent:0;margin-top:0!important;text-align:justify;font-size:12pt;font-family:"Times New Roman",Times,serif}
-.list-num{display:inline-block;width:18pt;text-align:left}
+.page-num-bottom { position: absolute; bottom: 8px; right: 75px; font-size: 10pt; color: #333; font-family: Arial, sans-serif; z-index: 10; }
+.page-body { padding: 25pt 0 8pt 36pt; font-size: 10pt; font-family: Arial, sans-serif; position: relative; z-index: 5; }
+.page-body { padding: 4pt 0 8pt 36pt; font-size: 10pt; font-family: Arial, sans-serif; position: relative; z-index: 5; }
+.p-title   { text-align: center !important; font-size: 14pt; font-weight: bold; letter-spacing: 0; margin-bottom: 6pt !important; margin-top: 4pt !important; font-family: Arial, sans-serif; }
+.p-center  { text-align: center !important; font-size: 10pt; margin-top: 4pt !important; font-family: Arial, sans-serif; }
+.p-body-left { text-indent: 31.5pt; margin-top: 8pt !important; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-body    { text-indent: 31.5pt; margin-top: 8pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-parties { padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0 !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-parties-left { padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0 !important; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-whereas { padding-left: 81pt; text-indent: -47pt; margin-top: 2pt !important; text-align: justify; font-size: 10pt; line-height: 1.4; font-family: Arial, sans-serif; }
+.p-parties-left { padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0 !important; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-now-therefore { padding-left:36pt; margin-top: 8pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-num     { padding-left: 0; text-indent: 0; margin-top: 6pt !important; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-num-left { padding-left: 0; text-indent: 0; margin-top: 6pt !important; font-size: 10pt; text-align: left; font-family: Arial, sans-serif; }
+.p-num-body { padding-left: 65pt; text-indent: 0; margin-top: 2pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-num-body-p { padding-left: 36pt; text-indent: 0; margin-top: 2pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-num-head { padding-left: 30pt !important; text-indent: 0 !important; }
+
+.p-list    { padding-left: 90pt; text-indent: 0; margin-top: 0 !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.list-num  { display: inline-block; width: 18pt; text-align: left; }
 .ef{color:#000;border:none;background:transparent;font-weight:normal}
 .sig-row{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:16px}
 .sig-block{text-align:center}
