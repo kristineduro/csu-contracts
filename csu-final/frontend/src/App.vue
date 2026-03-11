@@ -212,7 +212,6 @@
               <div class="card">
                 <div class="card-header">
                   <h3>Saved Files — Contract Folders</h3>
-
                 </div>
                 <div class="card-body">
                   <div v-if="!allContracts.length" class="empty-state">
@@ -464,16 +463,14 @@ function scaleContract() {
     if (!el) return
     const parent = el.parentElement
     if (!parent) return
-    // Scale to fit available width — bond-page is always 816px wide
     const available = parent.clientWidth - 10
     const scale = Math.min(1, available / 816)
     el.style.transform = `scale(${scale})`
     el.style.transformOrigin = 'top left'
     el.style.width = '816px'
     el.style.display = 'block'
-    // Total height = all pages (each 1248px) + gaps between them
     const pages = el.querySelectorAll ? el.querySelectorAll('.bond-page').length : 5
-    const totalH = pages * 1248 + (pages - 1) * 14  // 14px gap between pages
+    const totalH = pages * 1248 + (pages - 1) * 14
     parent.style.minHeight = Math.round(totalH * scale) + 'px'
   })
 }
@@ -695,16 +692,10 @@ async function saveFile() {
       el.style.outline = ''
       el.style.background = ''
     })
-    clone.querySelectorAll('.right-sig').forEach(el => {
-      el.style.border = 'none'
-      el.style.borderLeft = 'none'
-      el.style.padding = '0'
-    })
 
     const pagesHTML = clone.outerHTML
     const html = buildSavedHTML(pagesHTML, c, filename)
 
-    // Open in new window and auto-print (user can Save as PDF)
     const printWin = window.open('', '_blank', 'toolbar=no,menubar=no,location=no,status=no,scrollbars=yes,width=900,height=800')
     printWin.document.write(html)
     printWin.document.close()
@@ -739,11 +730,6 @@ function printContract() {
     el.style.outline = ''
     el.style.background = ''
   })
-  clone.querySelectorAll('.right-sig').forEach(el => {
-    el.style.border = 'none'
-    el.style.borderLeft = 'none'
-    el.style.padding = '0'
-  })
   const c = viewingContract.value
   const filename = c.last_name + '_' + c.first_name + '_' + c.contract_no
   const html = buildSavedHTML(clone.outerHTML, c, filename)
@@ -753,6 +739,13 @@ function printContract() {
   printWin.onload = () => { printWin.document.title = ''; printWin.focus(); printWin.print() }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// buildSavedHTML — the CSS here MUST mirror main.css exactly so print = preview
+// Key values that must match:
+//   .page-content  padding-right: 88px   (= right-sigs width 80px + 8px gap)
+//   .right-sig-line margin-left:  20px   (fixed position inside the 80px column)
+//   pages 4 & 5 (.bond-page without .has-sigs): padding-right: 35px
+// ─────────────────────────────────────────────────────────────────────────────
 function buildSavedHTML(pagesHTML, c, filename) {
   const title = filename || (c.last_name + '_' + c.first_name)
   return `<!DOCTYPE html>
@@ -761,67 +754,157 @@ function buildSavedHTML(pagesHTML, c, filename) {
 <meta charset="utf-8">
 <title></title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#fff;font-family:Arial,sans-serif;width:100%;height:100%}
-.bond-pages{display:block;width:100%}
-.bond-page{background:#fff;width:8.5in;height:13in;position:relative;font-family:Arial,sans-serif;font-size:10pt;line-height:1.42;overflow:hidden;page-break-after:always;break-after:page;display:flex;flex-direction:column}
-.bond-page:last-child{page-break-after:avoid;break-after:avoid}
-.right-sigs{position:absolute;right:0;top:110px;bottom:36px;width:80px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;z-index:10}
-.right-sig{display:flex;flex-direction:row;align-items:center;justify-content:center}
+/* ── RESET: only html/body, never * which would kill paragraph padding ── */
+*    { box-sizing: border-box; }
+html { margin: 0; padding: 0; width: 100%; }
+body { margin: 0; padding: 0; background: #fff; font-family: Arial, sans-serif; width: 100%; }
+
+/* ── PAGE SETTINGS ── */
+@page { margin: 0; padding: 0; size: 8.5in 13in; }
+
+/* ── BOND PAGE ── */
+.bond-pages { display: block; width: 100%; }
+.bond-page {
+  background: #fff;
+  width: 100%;
+  height: 13in;
+  position: relative;
+  font-family: Arial, sans-serif;
+  font-size: 10pt;
+  line-height: 1.5;
+  overflow: visible;
+  page-break-after: always;
+  break-after: page;
+  display: flex;
+  flex-direction: column;
+}
+.bond-page:last-child { page-break-after: avoid; break-after: avoid; }
+
+/* ── RIGHT SIGNATURE COLUMN ── */
+.right-sigs {
+  position: absolute;
+  right: 0;
+  top: 165px;
+  bottom: 36px;
+  width: 85px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 10;
+}
+.right-sig {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 85px;
+}
 .right-sig-line {
   border-left: 0.5px solid #333;
   height: 130px;
   width: 0;
   flex-shrink: 0;
-  margin-right: 0;
-  margin-left: 10px;   /* remove right margin */
-}.right-sig-inner{display:flex;align-items:center;justify-content:center}
-.right-sig-text{writing-mode:vertical-rl;transform:rotate(180deg);font-size:7pt;line-height:1.3;font-family:"Times New Roman",Times,serif;text-align:center;padding:0;border:none}
-
-.page-content{padding-right:130px; padding-left: 35px; padding-bottom:35px; position:relative;z-index:5;height:13in;display:flex;flex-direction:column;overflow:hidden}
-.page-header{width:100%}.page-header img{width:100%;height:auto;display:block}
-.page-num{display:none}
-.page-num-bottom { position: absolute; bottom: 8px; right: 75px; font-size: 10pt; color: #333; font-family: Arial, sans-serif; z-index: 10; }
-.page-body { padding: 25pt 0 8pt 36pt; font-size: 10pt; font-family: Arial, sans-serif; position: relative; z-index: 5; }
-.page-body { padding: 4pt 0 8pt 36pt; font-size: 10pt; font-family: Arial, sans-serif; position: relative; z-index: 5; }
-.p-title   { text-align: center !important; font-size: 14pt; font-weight: bold; letter-spacing: 0; margin-bottom: 6pt !important; margin-top: 4pt !important; font-family: Arial, sans-serif; }
-.p-center  { text-align: center !important; font-size: 10pt; margin-top: 4pt !important; font-family: Arial, sans-serif; }
-.p-body-left { text-indent: 31.5pt; margin-top: 8pt !important; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-body    { text-indent: 31.5pt; margin-top: 8pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-parties { padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0 !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-parties-left { padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0 !important; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-whereas { padding-left: 81pt; text-indent: -47pt; margin-top: 2pt !important; text-align: justify; font-size: 10pt; line-height: 1.4; font-family: Arial, sans-serif; }
-.p-parties-left { padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0 !important; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-now-therefore { padding-left:36pt; margin-top: 8pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-num     { padding-left: 0; text-indent: 0; margin-top: 6pt !important; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-num-left { padding-left: 0; text-indent: 0; margin-top: 6pt !important; font-size: 10pt; text-align: left; font-family: Arial, sans-serif; }
-.p-num-body { padding-left: 65pt; text-indent: 0; margin-top: 2pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-num-body-p { padding-left: 36pt; text-indent: 0; margin-top: 2pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-num-head { padding-left: 30pt !important; text-indent: 0 !important; }
-
-.p-list    { padding-left: 90pt; text-indent: 0; margin-top: 0 !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-.list-num  { display: inline-block; width: 18pt; text-align: left; }
-.ef{color:#000;border:none;background:transparent;font-weight:normal}
-.sig-row{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:16px}
-.sig-block{text-align:center}
-.sig-line{font-weight:bold;text-transform:uppercase;border-top:1px solid #333;padding-top:3px;margin-top:40px;font-size:10pt;display:inline-block;min-width:180px;font-family:Arial,sans-serif}
-.sig-pos{font-size:10pt;font-family:Arial,sans-serif}
-.tor-table{width:100%;border-collapse:collapse;font-size:10pt;margin-top:5px;font-family:Arial,sans-serif}
-.tor-table td{border:1px solid #555;padding:4px 7px;vertical-align:top;font-size:10pt;font-family:Arial,sans-serif}
-.tor-label{background:#f0f0f0;font-weight:bold;width:35%;font-size:10pt}
-@page{
-  margin:0;
-  size:8.5in 13in;
+  margin-left: 36pt;
 }
-@page:first { margin:0; }
-@page:left  { margin:0; }
-@page:right { margin:0; }
-@top-left    { content:none !important; }
-@top-center  { content:none !important; }
-@top-right   { content:none !important; }
-@bottom-left   { content:none !important; }
-@bottom-center { content:none !important; }
-@bottom-right  { content:none !important; }
+.right-sig-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.right-sig-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 7pt;
+  line-height: 1.3;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  border: none;
+  padding: 0;
+}
+
+/* ── PAGE CONTENT: zero padding so header is full-bleed ── */
+.page-content {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 5;
+  height: 13in;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* ── HEADER: edge-to-edge ── */
+.page-header { width: 100%; margin: 0; padding: 0; display: block; }
+.page-header img { width: 100%; height: auto; display: block; margin: 0; padding: 0; }
+
+.page-num { display: none; }
+.page-num-bottom {
+  position: absolute;
+  bottom: 8px;
+  right: 70px;
+  font-size: 10pt;
+  color: #333;
+  font-family: Arial, sans-serif;
+  z-index: 10;
+}
+
+/* ── PAGE BODY ── */
+.page-body { padding: 8pt 90px 8pt 36pt; font-size: 10pt; font-family: Arial, sans-serif; position: relative; z-index: 5; }
+.bond-page:not(.has-sigs) .page-body { padding-right: 35px; }
+.page-body p { margin: 0; text-align: justify; font-family: Arial, sans-serif; font-size: 10pt; }
+/* Override justify for centered/titled paragraphs — must come AFTER .page-body p */
+.page-body p.p-title   { text-align: center; }
+.page-body p.p-center  { text-align: center; }
+
+/* ── PARAGRAPH STYLES (exact mirror of main.css) ── */
+.p-title        { text-align: center; font-size: 14pt; font-weight: bold; letter-spacing: 0; margin-bottom: 6pt; margin-top: 4pt; font-family: Arial, sans-serif; }
+.p-center       { text-align: center; font-size: 10pt; margin-top: 4pt; font-family: Arial, sans-serif; }
+.p-body         { text-indent: 31.5pt; margin-top: 20pt; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-body-left    { text-indent: 31.5pt; margin-top: 8pt; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-parties      { padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-parties-left { padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-whereas      { padding-left: 81pt; text-indent: -47pt; margin-top: 2pt; text-align: justify; font-size: 10pt; line-height: 1.4; font-family: Arial, sans-serif; }
+.p-whereas-left { padding-left: 81pt; text-indent: -45pt; margin-top: 2pt; text-align: left; font-size: 10pt; line-height: 1.4; font-family: Arial, sans-serif; }
+.p-now-therefore{ padding-left: 33pt; margin-top: 8pt; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-num          { padding-left: 0; text-indent: 0; margin-top: 6pt; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-num-left     { padding-left: 0; text-indent: 0; margin-top: 6pt; font-size: 10pt; text-align: left; font-family: Arial, sans-serif; }
+.p-num-head     { padding-left: 0; text-indent: 0; margin-top: 6pt; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-num-head-t   { padding-left: 0; text-indent: 0; margin-top: 6pt; font-size: 10pt; font-family: Arial, sans-serif; }
+
+/* Section heading with description label */
+.p-num-desc     { font-style: italic; }
+.p-num-body     { padding-left: 65pt; text-indent: 0; margin-top: 2pt; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-num-body-p   { padding-left: 33pt; text-indent: 0; margin-top: 2pt; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-list        { padding-left: 150pt; text-indent: -18pt; margin-top: 0 !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.list-num       { display: inline-block; width: 18pt; text-align: left; }
+/* 4.2 a./b. sub-items */
+.p-ab-item      { padding-left: 78pt; text-indent: -14pt; margin-top: 4pt; font-size: 10pt; font-family: Arial, sans-serif; text-align: justify; }
+.p-ab-body      { padding-left: 92pt; text-indent: 0; margin-top: 2pt; font-size: 10pt; font-family: Arial, sans-serif; text-align: justify; }
+.ab-num         { display: inline-block; width: 14pt; text-align: left; }
+
+/* ── DYNAMIC FIELDS: plain in print ── */
+.ef { color: #000; border: none; background: transparent; font-weight: normal; }
+
+/* ── SIGNATURE BLOCK ── */
+.sig-row   { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 20px; }
+.sig-block { text-align: center; }
+.sig-line  { font-weight: bold; text-transform: uppercase; border-top: 1px solid #333; padding-top: 3px; margin-top: 50px; font-size: 10pt; display: inline-block; min-width: 195px; font-family: Arial, sans-serif; }
+.sig-pos   { font-size: 10pt; font-family: Arial, sans-serif; }
+
+/* ── TOR TABLE ── */
+.tor-table    { width: 100%; border-collapse: collapse; font-size: 10pt; margin-top: 6px; font-family: Arial, sans-serif; }
+.tor-table td { border: 1px solid #555; padding: 5px 8px; vertical-align: top; font-size: 10pt; font-family: Arial, sans-serif; }
+.tor-label    { background: #f0f0f0; font-weight: bold; width: 35%; font-size: 10pt; }
+
+/* ── PRINT ── */
+@media print {
+  .bond-page { page-break-after: always; break-after: page; box-shadow: none; }
+  .bond-page:last-child { page-break-after: avoid; break-after: avoid; }
+}
 </style>
 </head>
 <body>
@@ -845,11 +928,6 @@ function downloadFile(f) {
     el.removeAttribute('contenteditable')
     el.style.outline = ''
     el.style.background = ''
-  })
-  clone.querySelectorAll('.right-sig').forEach(el => {
-    el.style.border = 'none'
-    el.style.borderLeft = 'none'
-    el.style.padding = '0'
   })
 
   const html = buildSavedHTML(clone.outerHTML, c, filename)

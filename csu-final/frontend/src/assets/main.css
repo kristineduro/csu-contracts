@@ -45,7 +45,6 @@ body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: v
   display: flex; align-items: center; gap: 10px;
   background: rgba(0,0,0,.25);
 }
-/* Logo - transparent bg, screen blend so black disappears on dark bg */
 .sidebar-logo-wrap {
   width: 46px; height: 46px; flex-shrink: 0;
   border-radius: 6px; overflow: hidden;
@@ -72,7 +71,7 @@ body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: v
 }
 .sidebar-brand-text small { display: block; font-size: .58rem; opacity: .7; text-transform: uppercase; letter-spacing: .08em; margin-top: 3px; }
 
-/* ── NAV LINKS - solid, no glow ── */
+/* ── NAV LINKS ── */
 .sidebar nav { flex: 1; padding-top: 6px; overflow-y: auto; }
 .sidebar nav a {
   display: flex; align-items: center; gap: 10px;
@@ -93,11 +92,9 @@ body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: v
 
 .main { margin-left: 220px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; padding-top: 0; }
 
-
-
 .content { padding: 0; flex: 1; position: relative; overflow: hidden; background: var(--bg); }
 
-/* ── DASHBOARD HERO: school photo top half, white bottom ── */
+/* ── DASHBOARD HERO ── */
 .dashboard-hero {
   width: 100%;
   height: 300px;
@@ -133,7 +130,7 @@ body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: v
 .btn-new-contract { background: #003300; color: #fff; border: none; }
 .btn-new-contract:hover { background: #004d00; transform: translateY(-1px); }
 .btn-outline { background: var(--white); color: #2e7d32; border: 1.5px solid #2e7d32; }
-.btn-outline:hover { background: ##922b21; transform: translateY(-1px); border-color: #1b5e20; }
+.btn-outline:hover { background: #f0f0f0; transform: translateY(-1px); border-color: #1b5e20; }
 .btn-gold { background: #d4a017; color: #fff; border: none; }
 .btn-gold:hover { background: #b8860b; transform: translateY(-1px); }
 .btn-red { background: var(--red); color: #fff; }
@@ -157,7 +154,6 @@ body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: v
   cursor: pointer; transition: all .22s ease;
   color: #fff; position: relative; overflow: hidden;
 }
-.stat-card::after { content: none; }
 .stat-card:active { animation: cardPop .3s ease forwards; }
 .stat-total  { background: #2e7d32; border: none; }
 .stat-active { background: #1b5e20; border: none; }
@@ -243,6 +239,7 @@ table.data-table tbody tr:hover td { background: #fafff8; }
   display: flex; align-items: center; justify-content: flex-end; gap: 10px;
   flex-shrink: 0;
 }
+
 /* ── TOAST ── */
 .toast {
   position: fixed; bottom: 22px; right: 22px; padding: 12px 18px;
@@ -327,55 +324,58 @@ table.data-table tbody tr:hover td { background: #fafff8; }
 
 /* Scale contract pages to fit screen */
 .bond-pages-wrap { width: 100%; overflow-x: auto; }
-.bond-pages-scale {
-  transform-origin: top left;
-  display: inline-block;
-}
+.bond-pages-scale { transform-origin: top left; display: inline-block; }
 
 /* ── BOND PAPER ── */
-.bond-pages { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.bond-pages { display: flex; flex-direction: column; align-items: stretch; gap: 14px; }
 .bond-page {
   background: #fff; width: 816px; min-height: 1248px; position: relative;
   box-shadow: 0 2px 14px rgba(0,0,0,.25);
   font-family: Arial, sans-serif; font-size: 10pt; line-height: 1.5; overflow: hidden;
+  margin: 0 auto;
 }
 .contract-scaler { overflow: hidden; }
+
+/* ─────────────────────────────────────────────
+   RIGHT SIGNATURE COLUMN
+   • .right-sigs  = absolute container on right edge
+   • .right-sig   = one row (line + rotated text)
+   • .right-sig-line  = the vertical rule
+   • .right-sig-text  = rotated name + title
+   ───────────────────────────────────────────── */
 .right-sigs {
   position: absolute;
   right: 0;
-  top: 110px;
+  top: 165px;
   bottom: 36px;
-  width: 80px;
+  width: 85px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   pointer-events: none;
   z-index: 10;
 }
-
 .right-sig {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  width: 85px;
 }
-
-/* border-left always prints unlike background-color */
 .right-sig-line {
   border-left: 0.5px solid #333;
   height: 130px;
   width: 0;
   flex-shrink: 0;
-  margin-right: 0;
-  margin-left: 10px;   /* remove right margin */
+  margin-left: 36pt;
+  padding: 0;
 }
-
 .right-sig-inner {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1;
 }
-
 .right-sig-text {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
@@ -384,53 +384,88 @@ table.data-table tbody tr:hover td { background: #fafff8; }
   font-family: Arial, sans-serif;
   text-align: center;
   border: none;
+  padding: 0;
 }
-.page-content{padding-right:130px; padding-left: 35px; padding-bottom:35px; position:relative;z-index:5;height:13in;display:flex;flex-direction:column;overflow:hidden}
-/* Pages 1-3 need extra right padding to clear the signatory column */
-.has-sigs .page-content { padding-right: 64px; }
-.page-header{width:100%}.page-header img{width:100%;height:auto;display:block}
+
+/* ─────────────────────────────────────────────
+   PAGE CONTENT
+   • NO padding-left — header must be full-bleed edge-to-edge
+   • padding-right = 80px (right-sigs) so text doesn't go under sigs
+   • Body text indentation is handled by .page-body padding-left
+   ───────────────────────────────────────────── */
+.page-content {
+  padding: 0;
+  position: relative;
+  z-index: 5;
+  height: 13in;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Header: truly edge-to-edge, no margin or padding */
+.page-header { width: 100%; margin: 0; padding: 0; }
+.page-header img { width: 100%; height: auto; display: block; margin: 0; padding: 0; }
 .gold-bar { height: 3px; background: #c9a227; }
 .page-num { display: none; }
-.page-num-bottom { position: absolute; bottom: 8px; right: 75px; font-size: 10pt; color: #333; font-family: Arial, sans-serif; z-index: 10; }
-.page-body { padding: 40pt 0 40pt 36pt; font-size: 10pt; font-family: Arial, sans-serif; position: relative; z-index: 5; }
+.page-num-bottom {
+  position: absolute; bottom: 8px; right: 70px;
+  font-size: 10pt; color: #333; font-family: Arial, sans-serif; z-index: 10;
+}
+.page-body {
+  padding: 8pt 90px 8pt 36pt;
+  font-size: 10pt; font-family: Arial, sans-serif;
+  position: relative; z-index: 5;
+}
+/* Pages 4 & 5 have no sigs column — full right space */
+.bond-page:not(.has-sigs) .page-body {
+  padding-right: 35px;
+}
 .page-body p { margin: 0; text-align: justify; font-family: Arial, sans-serif; font-size: 10pt; }
+/* Override justify for centered/titled paragraphs — must come AFTER .page-body p */
+.page-body p.p-title   { text-align: center; }
+.page-body p.p-center  { text-align: center; }
 
-/* Paragraph styles - Times New Roman 11pt */
-.p-body    { text-indent: 31.5pt; margin-top: 20pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-now-therefore { padding-left:36pt; margin-top: 8pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-parties { padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0 !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-/* Whereas: "Whereas," flush left, rest indented — hanging indent */
-.p-whereas { padding-left: 81pt; text-indent: -47pt; margin-top: 2pt !important; text-align: justify; font-size: 10pt; line-height: 1.4; font-family: Arial, sans-serif; }
-/* numbered: "1." then tab then text */
-.p-num     { padding-left: 0; text-indent: 0; margin-top: 6pt !important; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-num-body { padding-left: 65pt; text-indent: 0; margin-top: 2pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-num-body-p { padding-left: 36pt; text-indent: 0; margin-top: 2pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+/* ── PARAGRAPH STYLES ── */
+.p-body        { text-indent: 31.5pt; margin-top: 20pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-body-left   { text-indent: 31.5pt; margin-top: 8pt !important; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-now-therefore { padding-left: 33pt; margin-top: 8pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-parties     { padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0 !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-parties-left{ padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0 !important; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-whereas     { padding-left: 81pt; text-indent: -47pt; margin-top: 2pt !important; text-align: justify; font-size: 10pt; line-height: 1.4; font-family: Arial, sans-serif; }
+.p-whereas-left{ padding-left: 81pt; text-indent: -45pt; margin-top: 2pt !important; text-align: left; font-size: 10pt; line-height: 1.4; font-family: Arial, sans-serif; }
+.p-num         { padding-left: 0; text-indent: 0; margin-top: 6pt !important; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-num-left    { padding-left: 0; text-indent: 0; margin-top: 6pt !important; font-size: 10pt; text-align: left; font-family: Arial, sans-serif; }
+.p-num-body    { padding-left: 65pt; text-indent: 0; margin-top: 2pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-num-body-p  { padding-left: 33pt; text-indent: 0; margin-top: 2pt !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-num-head    { padding-left: 0; text-indent: 0; margin-top: 6pt !important; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-num-head-t  { padding-left: 0; text-indent: 0; margin-top: 6pt !important; font-size: 10pt; font-family: Arial, sans-serif; }
 
+/* Section heading with description label */
+.p-num-desc     { font-style: italic; }
+.p-list        { padding-left: 150pt; text-indent: -18pt; margin-top: 0 !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.list-num      { display: inline-block; width: 18pt; text-align: left; }
+/* 4.2 a./b. sub-items — indented under p-num-body text */
+.p-ab-item { padding-left: 78pt; text-indent: -14pt; margin-top: 4pt; font-size: 10pt; font-family: Arial, sans-serif; text-align: justify; }
+.p-ab-body { padding-left: 92pt; text-indent: 0; margin-top: 2pt; font-size: 10pt; font-family: Arial, sans-serif; text-align: justify; }
+.ab-num    { display: inline-block; width: 14pt; text-align: left; }
+.p-center      { text-align: center !important; font-size: 10pt; margin-top: 4pt !important; font-family: Arial, sans-serif; }
+.p-title       { text-align: center !important; font-size: 14pt; font-weight: bold; letter-spacing: 0; margin-bottom: 6pt !important; margin-top: 4pt !important; font-family: Arial, sans-serif; }
+.center        { text-align: center !important; }
 
-
-/* list items roman numerals */
-.p-list    { padding-left: 90pt; text-indent: 0; margin-top: 0 !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-.list-num  { display: inline-block; width: 18pt; text-align: left; }
-/* center aligned */
-.p-center  { text-align: center !important; font-size: 10pt; margin-top: 4pt !important; font-family: Arial, sans-serif; }
-/* title */
-.p-title   { text-align: center !important; font-size: 14pt; font-weight: bold; letter-spacing: 0; margin-bottom: 6pt !important; margin-top: 4pt !important; font-family: Arial, sans-serif; }
-/* left variants */
-.p-body-left { text-indent: 31.5pt; margin-top: 8pt !important; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-parties-left { padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0 !important; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-whereas-left { padding-left: 81pt; text-indent: -45pt; margin-top: 2pt !important; text-align: left; font-size: 10pt; line-height: 1.4; font-family: Arial, sans-serif; }
-.p-num-left { padding-left: 0; text-indent: 0; margin-top: 6pt !important; font-size: 10pt; text-align: left; font-family: Arial, sans-serif; }
-.center { text-align: center !important; }
 .ef { color: #c0392b; font-weight: 600; border-bottom: 1.5px dashed #c0392b; padding: 0 1px; cursor: text; }
 .ef:hover { background: rgba(192,57,43,.09); }
 .ef:focus { background: rgba(192,57,43,.14); outline: none; border-bottom: 2px solid #c0392b; }
 [contenteditable="true"]:not(.ef) { border-radius: 2px; outline: 1px solid transparent; transition: background .1s; }
 [contenteditable="true"]:not(.ef):hover { background: rgba(30,107,48,.06); outline: 1px dashed rgba(30,107,48,.3); }
 [contenteditable="true"]:not(.ef):focus { background: rgba(30,107,48,.08); outline: 2px solid rgba(30,107,48,.4); outline-offset: 1px; }
-.sig-row { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 20px; }
+
+.sig-row   { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 20px; }
 .sig-block { text-align: center; }
-.sig-line { font-weight: bold; text-transform: uppercase; border-top: 1px solid #333; border-left: none; border-right: none; border-bottom: none; padding-top: 3px; margin-top: 50px; font-size: 10pt; display: inline-block; min-width: 195px; font-family: Arial, sans-serif; }
-.sig-pos { font-size: 10pt; font-family: Arial, sans-serif; }
+.sig-line  { font-weight: bold; text-transform: uppercase; border-top: 1px solid #333; padding-top: 3px; margin-top: 50px; font-size: 10pt; display: inline-block; min-width: 195px; font-family: Arial, sans-serif; }
+.sig-pos   { font-size: 10pt; font-family: Arial, sans-serif; }
+
 .tor-table { width: 100%; border-collapse: collapse; font-size: 10pt; margin-top: 6px; font-family: Arial, sans-serif; }
 .tor-table td { border: 1px solid #555; padding: 5px 8px; vertical-align: top; font-size: 10pt; font-family: Arial, sans-serif; }
 .tor-label { background: #f0f0f0; font-weight: bold; width: 35%; font-size: 10pt; }
@@ -444,21 +479,71 @@ table.data-table tbody tr:hover td { background: #fafff8; }
   .content { padding: 0 !important; }
   body { background: #fff !important; }
   .bond-pages { gap: 0; align-items: stretch; display: block; }
-.bond-pages{display:block;width:100%}
-.bond-page:last-child{page-break-after:avoid;break-after:avoid}
-  .page-content { height: 100vh !important; min-height: 0 !important; padding-right: 50pt !important; position: relative !important; display: flex !important; flex-direction: column !important; }
-  .has-sigs .page-content { padding-right: 64px !important; }
-  .right-sigs { position: absolute !important; right: 0 !important; top: 110px !important; bottom: 36px !important; width: 80px !important; display: flex !important; flex-direction: column !important; justify-content: space-between !important; pointer-events: none !important; z-index: 10 !important; }
-  .right-sig { display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: center !important; }
-  .right-sig-line { border-left: 1px solid #333 !important; height: 130px !important; width: 0 !important; flex-shrink: 0 !important; margin-left: 50px !important; }
-  .right-sig-inner { display: flex !important; align-items: center !important; justify-content: center !important; }
-  .right-sig-text { writing-mode: vertical-rl !important; transform: rotate(180deg) !important; font-size: 7pt !important; line-height: 1.3 !important; font-family: Arial, sans-serif !important; text-align: center !important; border: none !important; }
+  .bond-page { page-break-after: always; break-after: page; box-shadow: none !important; }
+  .bond-page:last-child { page-break-after: avoid; break-after: avoid; }
+
+  /* Mirrors screen CSS exactly — page-content has NO padding, header is full-bleed */
+  .page-content {
+    padding: 0 !important;
+    height: 100vh !important;
+    min-height: 0 !important;
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .page-header { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+  .page-header img { width: 100% !important; height: auto !important; display: block !important; margin: 0 !important; padding: 0 !important; }
+
+  .right-sigs {
+    position: absolute !important;
+    right: 0 !important;
+    top: 165px !important;
+    bottom: 36px !important;
+    width: 72px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    pointer-events: none !important;
+    z-index: 10 !important;
+  }
+  .right-sig {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 72px !important;
+  }
+  .right-sig-line {
+    border-left: 0.5px solid #333 !important;
+    height: 130px !important;
+    width: 0 !important;
+    flex-shrink: 0 !important;
+    margin-left: 36pt !important;
+    padding: 0 !important;
+  }
+  .right-sig-inner {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 1 !important;
+  }
+  .right-sig-text {
+    writing-mode: vertical-rl !important;
+    transform: rotate(180deg) !important;
+    font-size: 7pt !important;
+    line-height: 1.3 !important;
+    font-family: Arial, sans-serif !important;
+    text-align: center !important;
+    border: none !important;
+    padding: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .page-num-bottom { right: 70px !important; }
   .ef { color: #000 !important; font-weight: normal !important; border: none !important; background: transparent !important; }
   [contenteditable] { background: transparent !important; outline: none !important; }
-  .page-body { padding: 4pt 0 8pt 18pt !important; font-family: Arial, sans-serif; font-size: 10pt; }
-  .p-num-head { padding-left: 30pt !important; text-indent: 0 !important; }
-  .p-num-body { padding-left: 28pt !important; text-indent: -28pt !important; }
-  .p-ab-item  { padding-left: 28pt !important; }
-  .p-ab-body  { padding-left: 44pt !important; }
+  .page-body { padding: 8pt 70px 8pt 36pt !important; font-family: Arial, sans-serif; font-size: 10pt; }
+  .bond-page:not(.has-sigs) .page-body { padding-right: 35px !important; }
   .contract-scaler { transform: none !important; width: auto !important; }
 }

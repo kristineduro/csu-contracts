@@ -14,26 +14,26 @@
           <div class="page-header"><img :src="headerImg" alt="CSU Header"></div>
           <div class="page-body">
             <p class="p-title" contenteditable="true" spellcheck="false" style="padding-bottom: 20px;font-family:Arial,sans-serif;font-size:16pt;font-weight:bold;">CONTRACT OF SERVICE</p>
-            <p class="p-body-left" contenteditable="true" spellcheck="false" style="margin-top:30px;font-size:10pt;font-family:Arial,sans-serif;text-indent:0;"><b>KNOW ALL MEN BY THESE PRESENTS:</b></p>
+            <p class="p-body-left" contenteditable="true" spellcheck="false" style="margin-bottom: 10px; margin-top:30px;font-size:10pt;font-family:Arial,sans-serif;text-indent:0;"><b>KNOW ALL MEN BY THESE PRESENTS:</b></p>
             <p class="p-body" contenteditable="true" spellcheck="false">This CONTRACT OF SERVICE (the <b>"Contract"</b>) is made and entered into by and between:</p>
             <p class="p-parties" contenteditable="true" spellcheck="false">The <b>CARAGA STATE UNIVERSITY</b>, a Higher Education Institution with office address at Ampayon, Butuan City, represented by its President, <b><u>ROLYN C. DAGUIL, Ph.D.</u></b></p>
-            <p class="p-parties" contenteditable="true" spellcheck="false">herein referred as the &#x201C;<b>First Party</b>&#x201D;;</p>
-            <p class="p-center" contenteditable="true" spellcheck="false">&#x2013; and &#x2013;</p>
-            <p class="p-parties" contenteditable="true" spellcheck="false"><b><u><span class="ef">{{ contractName }}</span></u></b>, of legal age, <span class="ef">{{ c.civil_status }}</span>, Filipino, and with residence at <span class="ef">{{ c.address }}</span> herein referred as the &#x201C;<b>Second Party</b>&#x201D;</p>
+            <p class="p-parties" contenteditable="true" spellcheck="false">herein referred as the &#x201C;<b>First Party</b>&#x201D;;</p> z
+            <p class="p-center" contenteditable="true" spellcheck="false">&#x2013; and &#x2013;</p> <br>
+            <p class="p-parties" contenteditable="true" spellcheck="false"><b><u><span class="ef">{{ contractName }}</span></u></b>, of legal age, <span class="ef">{{ c.civil_status }}</span>, Filipino, and with residence at <span class="ef">{{ c.address }}</span> herein referred as the &#x201C;<b>Second Party</b>&#x201D;</p> <br>
             <p class="p-center" contenteditable="true" spellcheck="false"><b>WITNESSETH THAT</b></p>
 
             <p class="p-whereas" contenteditable="true" spellcheck="false"><em>Whereas,</em> the <b>First Party</b> needs services as described herein, which services are not performed by regular CSU personnel and do not pertain to vacant regular <em>plantilla</em> positions of the CSU;</p>
             <p class="p-whereas" contenteditable="true" spellcheck="false"><em>Whereas,</em> <b>Second Party</b> has the education, experience and skills needed to provide such services;</p>
             <p class="p-whereas" contenteditable="true" spellcheck="false"><em>Whereas,</em> <b>Second Party</b> has offered to render such services, and the <b>First Party</b> has accepted such offer;</p>
             <p class="p-whereas" contenteditable="true" spellcheck="false"><em>Whereas,</em> <b>Second Party</b> shall perform work at a time and a schedule to be agreed upon by both parties;</p>
-            <p class="p-whereas" contenteditable="true" spellcheck="false"><em>Whereas,</em> that it is understood that this contract does <b>NOT</b> create an Employer-Employee Relationship between the <b>First Party</b> and the <b>Second Party</b>, that the services rendered hereunder are not considered and will not be accredited as government service;</p>
+            <p class="p-whereas" contenteditable="true" spellcheck="false"><em>Whereas,</em> that it is understood that this contract does <b>NOT</b> create an Employer-Employee Relationship between the <b>First Party</b> and the <b>Second Party</b>, that the services rendered hereunder are not considered and will not be accredited as government service;</p> <br>
 
-            <p class="p-now-therefore" contenteditable="true" spellcheck="false"><b>NOW, THEREFORE,</b> the parties agree that:</p>
+           <br> <p class="p-now-therefore" contenteditable="true" spellcheck="false"><b>NOW, THEREFORE,</b> the parties agree that:</p>
 
-            <p class="p-num-head-t" contenteditable="true" spellcheck="false"><b style="padding-right:27pt">1.</b><b>Term of Contract.</b></p>
-            <p class="p-num-body-p" contenteditable="true" spellcheck="false">The term of this contract commences from <b><u><span class="ef">{{ fmtDate(c.start_date) }}</span> to <span class="ef">{{ fmtDate(c.end_date) }}</span></u></b>, unless sooner terminated by either party for reasons authorized by law and upon written notice <b>Fifteen days</b> prior the date of effectivity.</p>
+            <p class="p-num-head-t" contenteditable="true" spellcheck="false"><b style="padding-right:24pt">1.</b><b>Term of Contract.</b></p>
+            <p class="p-num-body-p" contenteditable="true" spellcheck="false">The term of this contract commences from <b><u><span class="ef">{{ fmtDate(c.start_date) }}</span> to <span class="ef">{{ fmtDate(c.end_date) }}</span></u></b>, unless sooner terminated by either party for reasons authorized by law and upon written notice <b>Fifteen days</b> prior the date of effectivity.</p> <br>
 
-            <p class="p-num-head-t" contenteditable="true" spellcheck="false"><b style="padding-right:27pt">2.</b><b>Duties and Responsibilities of Second Party:</b></p>
+            <p class="p-num-head-t" contenteditable="true" spellcheck="false"><b style="padding-right:24pt">2.</b><b>Duties and Responsibilities of Second Party:</b></p>
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>2.1</b>&emsp;the <b>Second Party</b> accepts the terms and conditions set forth in this contract and agrees to devote his/her full time and attention to the performance of his/her duties under this contract and perform functions as described on the <b>Specific Terms of Reference</b> of his/her office/station which form part of this contract;</p>
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>2.2</b>&emsp;The <b>Second Party</b> shall abide to the University Rules and Regulations as well as policies promulgated by the duly constituted authorities that includes but not limited to the following:</p>
             <p class="p-list" contenteditable="true" spellcheck="false"><span class="list-num">i.</span>University Code;</p>
@@ -63,20 +63,19 @@
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>2.6</b>&emsp;If necessary, to ensure efficient rendition of the contracted service, <em>the <b>First Party</b> may require <b>Second Party</b> to attend seminars, trainings, and the like activities in the local, regional, national and/or international levels relevant to the <b>Second Party&#x2019;s</b> tasks and/or functions which can contribute to the achievement of the University&#x2019;s targets and in consonance with the University Policy and Guidelines on Foreign Travel.</em> If the training cost is shouldered by the <b>First party</b>, the <b>Second Party</b> shall ensure the return of investment in the form of service under this Contract for at least <b>three (3) months</b> or the remainder of the period of effectivity of this Contract, whichever period is shorter. Should <b>Second Party</b> fail to do so, <b>Second Party</b> shall refund the <b>First Party</b> for the cost of such training;</p>
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>2.7</b>&emsp;Perform other related tasks and responsibilities assigned by the <b>First Party.</b></p>
 
-            <p class="p-num-head-t" contenteditable="true" spellcheck="false"><b style="padding-right:27pt">3.</b><b>Compensation</b></p>
+            <p class="p-num-head-t" contenteditable="true" spellcheck="false"><b style="padding-right:24pt">3.</b><b>Compensation</b></p>
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>3.1</b>&emsp;For services rendered under this Contract, <b>Second Party</b> shall receive a daily compensation in the total amount of <u><b><span class="ef">{{ c.rate_in_words }}</span> ( &#8369;<span class="ef">{{ fmtNum(c.daily_rate) }}</span>)</b></u> particularly described in the attached Terms of Reference, subject to the submission of Accomplishment Report/s and duly signed Daily Time Records (DTRs);</p>
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>3.2 Overtime Pay</b> in cases stipulated in Item 2.4 of this contract in accordance with the University policy on Overtime;</p>
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>3.3 &#x201C;No Work No Pay Policy&#x201D;</b> is understood to be observed with this contract.</p>
 
-            <p class="p-num-head-t" contenteditable="true" spellcheck="false"><b style="padding-right:27pt">4.</b><b>Miscellaneous Provisions</b></p>
+            <p class="p-num-head-t" contenteditable="true" spellcheck="false"><b style="padding-right:24pt">4.</b><b>Miscellaneous Provisions</b></p>
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>4.1</b>&emsp;Second Party warrants that he/she has not been previously dismissed from government service by reason of an administrative offense.</p>
 
-            <!-- 4.2 with a. and b. sub-items -->
-            <p class="p-num-body" contenteditable="true" spellcheck="false"><b>4.2</b>&emsp;Second Party authorizes the First Party to deduct from Second Party&#x2019;s compensation mandatory contributions as a self-employed individual and remit the same to the Social Security System (SSS), Philippine Health Insurance Corporation (PhilHealth) and Home Development Mutual Fund (HDMF/<u>PAG-IBIG</u>) accordingly, in accordance with applicable laws and policies. It is understood that for this purpose, the First Party shall only be acting as a collecting and remitting agent.</p>
-            <p class="p-list" contenteditable="true" spellcheck="false"><span class="list-num"><b>a.</b></span>Lecturers and Project Staff with mother agency</p>
-            <p class="p-list" contenteditable="true" spellcheck="false"><b>The identified Mother Agency</b> will be the one to deduct the mandatory contributions.</p>
+            <p class="p-num-body" contenteditable="true" spellcheck="false"><b>4.2</b>&emsp;Second Party authorizes the First Party to deduct from Second Party&#x2019;s compensation mandatory contributions as a self-employed individual and remit the same to the Social Security System (SSS), Philippine Health Insurance Corporation (PhilHealth) and Home Development Mutual Fund (HDMF/PAG-IBIG) accordingly, in accordance with applicable laws and policies. It is understood that for this purpose, the First Party shall only be acting as a collecting and remitting agent.</p>
+            <p class="p-list" contenteditable="true" spellcheck="false"><span class="list-num"><b>a.</b></span>Lecturers and Project Staff with mother agency </p>
+            <p class="p-list" contenteditable="true" spellcheck="false"><b style="padding-left:23px">The identified Mother Agency</b> will be the one to deduct the mandatory contributions.</p>
             <p class="p-list" contenteditable="true" spellcheck="false"><span class="list-num"><b>b.</b></span>Lecturers and Project Staff without mother agency</p>
-            <p class="p-list" contenteditable="true" spellcheck="false"><b>The identified Mother Agency</b> <b>The First Party</b> will be the one to deduct the mandatory contributions subject to the concerned staff&#x2019;s request for voluntary deduction/s addressed to the HRMO. It is understood that for this purpose, the <b>First Party</b> shall only be acting as a collecting and remitting agent.</p>
+            <p class="p-list" contenteditable="true" spellcheck="false"><b style="padding-left:23px">The identified Mother Agency</b> <b>The First Party</b> will be the one to deduct the mandatory contributions subject to the concerned staff&#x2019;s request for voluntary deduction/s addressed to the HRMO. It is understood that for this purpose, the <b>First Party</b> shall only be acting as a collecting and remitting agent.</p>
 
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>4.3</b>&emsp;It is understood that no other benefits (not mentioned) hereto shall apply to the Second Party unless otherwise sanctioned by the University.</p>
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>4.4</b>&emsp;This contract may be renewed at the agreement of both parties subject to evaluation of performance of the Second Party and availability of funds.</p>
@@ -99,7 +98,7 @@
           <div class="page-body">
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>4.6</b>&emsp;Data Privacy Notice. This contract, in line with the Data Privacy Act of 2012, is committed to protect and secure personal information obtained in the process of performance of its mandate. The personal and other information you provided herein will be processed and utilized solely for official purposes only by the <b>First Party</b> and will not be shared with any outside parties unless written consent from the <b>Second Party</b> or approved communication by the <b>First Party</b> is secured.</p>
 
-            <p class="p-num-head" contenteditable="true" spellcheck="false"><b style="padding-right:27pt">5.</b><b>ADDITIONAL COMPENSATION PROVISIONS</b></p>
+            <p class="p-num-head" contenteditable="true" spellcheck="false"><b style="padding-right:24pt">5.</b><b>ADDITIONAL COMPENSATION PROVISIONS</b></p>
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>5.1</b>&emsp;The First Party shall ensure the timely scheduling and release of salaries in accordance with the memorandum order governing payroll processes. Salaries shall be disbursed no later than five (5) working days following the designated cut-off period.</p>
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>5.2</b>&emsp;Salary disbursements are contingent on the timely submission of complete payroll documents by the respective departments/offices. These documents must be submitted no later than 12:00 noon on the next working day following the end of the cut-off periods, specifically the 15th and the 30th/31st of each month. Disbursements shall follow the pre-approved payroll schedule unless modified by mutual agreement or in the event of unforeseen circumstances.</p>
             <p class="p-num-body" contenteditable="true" spellcheck="false"><b>5.3</b>&emsp;Failure to submit the required payroll documents within the prescribed cut-off period will result in the salary being released during the next payroll cycle or upon submission and compliance with requirements, whichever is earlier.</p>
@@ -246,4 +245,3 @@ function fmtNum(n) {
   return Number(n || 0).toLocaleString('en-PH', { minimumFractionDigits: 2 })
 }
 </script>
-
