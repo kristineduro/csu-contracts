@@ -754,6 +754,7 @@ function buildSavedHTML(pagesHTML, c, filename) {
 <meta charset="utf-8">
 <title></title>
 <style>
+<<<<<<< HEAD
 /* ── RESET: only html/body, never * which would kill paragraph padding ── */
 *    { box-sizing: border-box; }
 html { margin: 0; padding: 0; width: 100%; }
@@ -904,6 +905,55 @@ body { margin: 0; padding: 0; background: #fff; font-family: Arial, sans-serif; 
 @media print {
   .bond-page { page-break-after: always; break-after: page; box-shadow: none; }
   .bond-page:last-child { page-break-after: avoid; break-after: avoid; }
+=======
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff;font-family:Arial,sans-serif;width:100%;height:100%}
+.bond-pages{display:block;width:100%}
+.bond-page{background:#fff;width:8.5in;height:13in;position:relative;font-family:Arial,sans-serif;font-size:10pt;line-height:1.5;overflow:hidden;page-break-after:always;break-after:page;display:flex;flex-direction:column}
+.bond-page:last-child{page-break-after:avoid;break-after:avoid}
+.right-sigs{position:absolute;right:0;top:110px;bottom:36px;width:80px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;z-index:10}
+.right-sig{display:flex;flex-direction:row;align-items:center;justify-content:center}
+.right-sig-line{border-left:1px solid #333;height:130px;width:0;flex-shrink:0;margin-left:50px}
+.right-sig-inner{display:flex;align-items:center;justify-content:center}
+.right-sig-text{writing-mode:vertical-rl;transform:rotate(180deg);font-size:7pt;line-height:1.3;font-family:Arial,sans-serif;text-align:center;border:none}
+.page-content{padding-right:36pt;position:relative;z-index:5;height:13in;display:flex;flex-direction:column;overflow:hidden}
+.has-sigs .page-content{padding-right:64px}
+.page-header{width:100%}.page-header img{width:100%;height:auto;display:block}
+.page-num{display:none}
+.page-num-bottom{position:absolute;bottom:8px;right:10px;font-size:10pt;color:#333;font-family:Arial,sans-serif;z-index:10}
+.page-body{padding:4pt 0 8pt 18pt;font-size:10pt;font-family:Arial,sans-serif;position:relative;z-index:5}
+.page-body p{margin:0;text-align:justify;font-family:Arial,sans-serif;font-size:10pt}
+.p-title{text-align:center!important;font-size:14pt;font-weight:bold;margin-bottom:2pt!important;margin-top:30pt!important;font-family:Arial,sans-serif}
+.p-center{text-align:center!important;font-size:10pt;margin-top:4pt!important;font-family:Arial,sans-serif}
+.p-body-left{text-indent:22pt;margin-top:8pt!important;text-align:left;font-size:10pt;font-family:Arial,sans-serif}
+.p-body{text-indent:22pt;margin-top:8pt!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
+.p-parties{padding-left:22pt;line-height:1.5;margin-top:0!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
+.p-parties-left{padding-left:22pt;line-height:1.5;margin-top:0!important;text-align:left;font-size:10pt;font-family:Arial,sans-serif}
+.p-whereas{padding-left:80pt;text-indent:45pt;margin-top:2pt!important;text-align:justify;font-size:10pt;line-height:1.4;font-family:Arial,sans-serif}
+.p-whereas-left{padding-left:80pt;text-indent:45pt;margin-top:2pt!important;text-align:left;font-size:10pt;line-height:1.4;font-family:Arial,sans-serif}
+.p-now-therefore{padding-left:31.5pt;margin-top:8pt!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
+.p-num-head{padding-left:0;text-indent:0;margin-top:8pt!important;margin-bottom:2pt!important;font-size:10pt;font-family:Arial,sans-serif}
+.p-num{padding-left:0;text-indent:0;margin-top:6pt!important;font-size:10pt;font-family:Arial,sans-serif}
+.p-num-left{padding-left:0;text-indent:0;margin-top:6pt!important;font-size:10pt;text-align:left;font-family:Arial,sans-serif}
+.p-num-body{padding-left:28pt;text-indent:-28pt;margin-top:3pt!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
+.p-num-body-p{padding-left:28pt;text-indent:0;margin-top:3pt!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
+.p-list{padding-left:56pt;text-indent:0;margin-top:0!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
+.list-num{display:inline-block;width:18pt;text-align:left}
+.p-ab-item{padding-left:28pt;text-indent:0;margin-top:3pt!important;font-size:10pt;font-family:Arial,sans-serif}
+.ab-label{display:inline-block;width:16pt}
+.p-ab-body{padding-left:44pt;text-indent:0;margin-top:1pt!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
+.ef{color:#000;border:none;background:transparent;font-weight:normal}
+.sig-row{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:16px}
+.sig-block{text-align:center}
+.sig-line{font-weight:bold;text-transform:uppercase;border-top:1px solid #333;padding-top:3px;margin-top:40px;font-size:10pt;display:inline-block;min-width:180px;font-family:Arial,sans-serif}
+.sig-pos{font-size:10pt;font-family:Arial,sans-serif}
+.tor-table{width:100%;border-collapse:collapse;font-size:10pt;margin-top:5px;font-family:Arial,sans-serif}
+.tor-table td{border:1px solid #555;padding:4px 7px;vertical-align:top;font-size:10pt;font-family:Arial,sans-serif}
+.tor-label{background:#f0f0f0;font-weight:bold;width:35%;font-size:10pt}
+@page{
+  margin:0;
+  size:8.5in 13in;
+>>>>>>> 361cc51159148467625337bb140e461fcdf815f2
 }
 </style>
 </head>
