@@ -17,7 +17,7 @@
             <p class="p-body-left" contenteditable="true" spellcheck="false" style="margin-bottom: 10px; margin-top:30px;font-size:10pt;font-family:Arial,sans-serif;text-indent:0;"><b>KNOW ALL MEN BY THESE PRESENTS:</b></p>
             <p class="p-body" contenteditable="true" spellcheck="false">This CONTRACT OF SERVICE (the <b>"Contract"</b>) is made and entered into by and between:</p>
             <p class="p-parties" contenteditable="true" spellcheck="false">The <b>CARAGA STATE UNIVERSITY</b>, a Higher Education Institution with office address at Ampayon, Butuan City, represented by its President, <b><u>ROLYN C. DAGUIL, Ph.D.</u></b></p>
-            <p class="p-parties" contenteditable="true" spellcheck="false">herein referred as the &#x201C;<b>First Party</b>&#x201D;;</p> z
+            <p class="p-parties" contenteditable="true" spellcheck="false">herein referred as the &#x201C;<b>First Party</b>&#x201D;;</p> 
             <p class="p-center" contenteditable="true" spellcheck="false">&#x2013; and &#x2013;</p> <br>
             <p class="p-parties" contenteditable="true" spellcheck="false"><b><u><span class="ef">{{ contractName }}</span></u></b>, of legal age, <span class="ef">{{ c.civil_status }}</span>, Filipino, and with residence at <span class="ef">{{ c.address }}</span> herein referred as the &#x201C;<b>Second Party</b>&#x201D;</p> <br>
             <p class="p-center" contenteditable="true" spellcheck="false"><b>WITNESSETH THAT</b></p>

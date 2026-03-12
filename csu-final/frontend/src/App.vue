@@ -51,7 +51,12 @@
 
         <!-- ══════ DASHBOARD ══════ -->
         <div v-if="tab === 'dashboard'">
-          <div class="dashboard-hero"></div>
+          <div class="dashboard-hero">
+          <div class="dashboard-clock">
+            <div class="clock-date">{{ clockDate }}</div>
+            <div class="clock-time">{{ clockTime }}</div>
+          </div>
+        </div>
           <div class="dashboard-content">
           <div v-if="loading" class="loading">
             <div class="spinner"></div><p>Loading...</p>
@@ -456,6 +461,25 @@ const folderFiles      = ref([])
 const folderCounts     = ref({})
 const recentSaves      = ref([])
 const scalerRef        = ref(null)
+const clockDate        = ref('')
+const clockTime        = ref('')
+
+function updateClock() {
+  const now = new Date()
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+  const day = days[now.getDay()]
+  const month = months[now.getMonth()]
+  const date = now.getDate()
+  const year = now.getFullYear()
+  let h = now.getHours()
+  const m = String(now.getMinutes()).padStart(2, '0')
+  const s = String(now.getSeconds()).padStart(2, '0')
+  const ampm = h >= 12 ? 'PM' : 'AM'
+  h = h % 12 || 12
+  clockDate.value = `${day}, ${month} ${date}, ${year}`
+  clockTime.value = `${h}:${m}:${s} ${ampm}`
+}
 
 function scaleContract() {
   nextTick(() => {
@@ -472,6 +496,8 @@ function scaleContract() {
     const pages = el.querySelectorAll ? el.querySelectorAll('.bond-page').length : 5
     const totalH = pages * 1248 + (pages - 1) * 14
     parent.style.minHeight = Math.round(totalH * scale) + 'px'
+    // Store scale so we never apply it to print
+    el.dataset.previewScale = scale
   })
 }
 
@@ -494,6 +520,8 @@ const pageTitle = computed(() => {
 onMounted(async () => {
   await loadImages()
   await loadDashboard()
+  updateClock()
+  setInterval(updateClock, 1000)
 })
 
 async function loadImages() {
@@ -692,6 +720,14 @@ async function saveFile() {
       el.style.outline = ''
       el.style.background = ''
     })
+    // Strip .ef red styling so print shows plain black text
+    clone.querySelectorAll('.ef').forEach(el => {
+      el.style.color = '#000'
+      el.style.fontWeight = 'normal'
+      el.style.borderBottom = 'none'
+      el.style.background = 'transparent'
+      el.style.padding = '0'
+    })
 
     const pagesHTML = clone.outerHTML
     const html = buildSavedHTML(pagesHTML, c, filename)
@@ -730,6 +766,13 @@ function printContract() {
     el.style.outline = ''
     el.style.background = ''
   })
+  clone.querySelectorAll('.ef').forEach(el => {
+    el.style.color = '#000'
+    el.style.fontWeight = 'normal'
+    el.style.borderBottom = 'none'
+    el.style.background = 'transparent'
+    el.style.padding = '0'
+  })
   const c = viewingContract.value
   const filename = c.last_name + '_' + c.first_name + '_' + c.contract_no
   const html = buildSavedHTML(clone.outerHTML, c, filename)
@@ -754,26 +797,25 @@ function buildSavedHTML(pagesHTML, c, filename) {
 <meta charset="utf-8">
 <title></title>
 <style>
-<<<<<<< HEAD
-/* ── RESET: only html/body, never * which would kill paragraph padding ── */
-*    { box-sizing: border-box; }
-html { margin: 0; padding: 0; width: 100%; }
-body { margin: 0; padding: 0; background: #fff; font-family: Arial, sans-serif; width: 100%; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { margin: 0; padding: 0; background: #fff; font-family: Arial, sans-serif; }
 
 /* ── PAGE SETTINGS ── */
 @page { margin: 0; padding: 0; size: 8.5in 13in; }
 
-/* ── BOND PAGE ── */
-.bond-pages { display: block; width: 100%; }
+/* ── BOND PAGES CONTAINER ── */
+.bond-pages { display: block; width: 8.5in; margin: 0 auto; }
+
+/* ── BOND PAGE: fixed paper dimensions, never depends on screen width ── */
 .bond-page {
   background: #fff;
-  width: 100%;
+  width: 8.5in;
   height: 13in;
   position: relative;
   font-family: Arial, sans-serif;
   font-size: 10pt;
   line-height: 1.5;
-  overflow: visible;
+  overflow: hidden;
   page-break-after: always;
   break-after: page;
   display: flex;
@@ -782,16 +824,16 @@ body { margin: 0; padding: 0; background: #fff; font-family: Arial, sans-serif; 
 .bond-page:last-child { page-break-after: avoid; break-after: avoid; }
 
 /* ── RIGHT SIGNATURE COLUMN ── */
+/* All values in pt/in so they scale correctly at any DPI */
 .right-sigs {
   position: absolute;
   right: 0;
-  top: 165px;
-  bottom: 36px;
-  width: 85px;
+  top: 1.72in;
+  bottom: 0.375in;
+  width: 0.885in;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  pointer-events: none;
   z-index: 10;
 }
 .right-sig {
@@ -799,14 +841,14 @@ body { margin: 0; padding: 0; background: #fff; font-family: Arial, sans-serif; 
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  width: 85px;
+  width: 0.885in;
 }
 .right-sig-line {
-  border-left: 0.5px solid #333;
-  height: 130px;
+  border-left: 0.5pt solid #333;
+  height: 1.35in;
   width: 0;
   flex-shrink: 0;
-  margin-left: 36pt;
+  margin-left: 0.5in;
 }
 .right-sig-inner {
   display: flex;
@@ -825,17 +867,17 @@ body { margin: 0; padding: 0; background: #fff; font-family: Arial, sans-serif; 
   padding: 0;
 }
 
-/* ── PAGE CONTENT: zero padding so header is full-bleed ── */
+/* ── PAGE CONTENT ── */
 .page-content {
   padding: 0;
   margin: 0;
   position: relative;
   z-index: 5;
+  width: 8.5in;
   height: 13in;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  width: 100%;
 }
 
 /* ── HEADER: edge-to-edge ── */
@@ -845,8 +887,8 @@ body { margin: 0; padding: 0; background: #fff; font-family: Arial, sans-serif; 
 .page-num { display: none; }
 .page-num-bottom {
   position: absolute;
-  bottom: 8px;
-  right: 70px;
+  bottom: 0.1in;
+  right: 0.73in;
   font-size: 10pt;
   color: #333;
   font-family: Arial, sans-serif;
@@ -854,47 +896,47 @@ body { margin: 0; padding: 0; background: #fff; font-family: Arial, sans-serif; 
 }
 
 /* ── PAGE BODY ── */
-.page-body { padding: 8pt 90px 8pt 36pt; font-size: 10pt; font-family: Arial, sans-serif; position: relative; z-index: 5; }
-.bond-page:not(.has-sigs) .page-body { padding-right: 35px; }
+/* right padding = right-sigs width (0.885in) + small gap */
+.page-body { padding: 8pt 0.94in 8pt 0.375in; font-size: 10pt; font-family: Arial, sans-serif; position: relative; z-index: 5; }
+.bond-page:not(.has-sigs) .page-body { padding-right: 0.36in; }
 .page-body p { margin: 0; text-align: justify; font-family: Arial, sans-serif; font-size: 10pt; }
-/* Override justify for centered/titled paragraphs — must come AFTER .page-body p */
-.page-body p.p-title   { text-align: center; }
-.page-body p.p-center  { text-align: center; }
+.page-body p.p-title  { text-align: center; }
+.page-body p.p-center { text-align: center; }
 
-/* ── PARAGRAPH STYLES (exact mirror of main.css) ── */
-.p-title        { text-align: center; font-size: 14pt; font-weight: bold; letter-spacing: 0; margin-bottom: 6pt; margin-top: 4pt; font-family: Arial, sans-serif; }
+/* ── PARAGRAPH STYLES ── */
+.p-title        { text-align: center; font-size: 14pt; font-weight: bold; margin-bottom: 6pt; margin-top: 4pt; font-family: Arial, sans-serif; }
 .p-center       { text-align: center; font-size: 10pt; margin-top: 4pt; font-family: Arial, sans-serif; }
 .p-body         { text-indent: 31.5pt; margin-top: 20pt; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
 .p-body-left    { text-indent: 31.5pt; margin-top: 8pt; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-parties      { padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-parties-left { padding-left: 31.5pt; padding-right: 0; line-height: 1.5; margin-top: 0; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-parties      { padding-left: 31.5pt; line-height: 1.5; margin-top: 0; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-parties-left { padding-left: 31.5pt; line-height: 1.5; margin-top: 0; text-align: left; font-size: 10pt; font-family: Arial, sans-serif; }
 .p-whereas      { padding-left: 81pt; text-indent: -47pt; margin-top: 2pt; text-align: justify; font-size: 10pt; line-height: 1.4; font-family: Arial, sans-serif; }
 .p-whereas-left { padding-left: 81pt; text-indent: -45pt; margin-top: 2pt; text-align: left; font-size: 10pt; line-height: 1.4; font-family: Arial, sans-serif; }
-.p-now-therefore{ padding-left: 33pt; margin-top: 8pt; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-now-therefore{ padding-left: 36pt; margin-top: 8pt; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
 .p-num          { padding-left: 0; text-indent: 0; margin-top: 6pt; font-size: 10pt; font-family: Arial, sans-serif; }
 .p-num-left     { padding-left: 0; text-indent: 0; margin-top: 6pt; font-size: 10pt; text-align: left; font-family: Arial, sans-serif; }
 .p-num-head     { padding-left: 0; text-indent: 0; margin-top: 6pt; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-num-head-t   { padding-left: 0; text-indent: 0; margin-top: 6pt; font-size: 10pt; font-family: Arial, sans-serif; }
-
-/* Section heading with description label */
+.p-num-head-t   { padding-left: 30pt; text-indent: 0; margin-top: 6pt; font-size: 10pt; font-family: Arial, sans-serif; }
 .p-num-desc     { font-style: italic; }
 .p-num-body     { padding-left: 65pt; text-indent: 0; margin-top: 2pt; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-num-body-p   { padding-left: 33pt; text-indent: 0; margin-top: 2pt; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
-.p-list        { padding-left: 150pt; text-indent: -18pt; margin-top: 0 !important; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-num-body-p   { padding-left: 36pt; text-indent: 0; margin-top: 2pt; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
+.p-list         { padding-left: 90pt; text-indent: 0; margin-top: 0; text-align: justify; font-size: 10pt; font-family: Arial, sans-serif; }
 .list-num       { display: inline-block; width: 18pt; text-align: left; }
-/* 4.2 a./b. sub-items */
 .p-ab-item      { padding-left: 78pt; text-indent: -14pt; margin-top: 4pt; font-size: 10pt; font-family: Arial, sans-serif; text-align: justify; }
 .p-ab-body      { padding-left: 92pt; text-indent: 0; margin-top: 2pt; font-size: 10pt; font-family: Arial, sans-serif; text-align: justify; }
 .ab-num         { display: inline-block; width: 14pt; text-align: left; }
 
-/* ── DYNAMIC FIELDS: plain in print ── */
-.ef { color: #000; border: none; background: transparent; font-weight: normal; }
+/* ── DYNAMIC FIELDS: plain black in print ── */
+.ef { color: #000 !important; border: none !important; border-bottom: none !important;
+      background: transparent !important; font-weight: normal !important; padding: 0 !important; }
 
 /* ── SIGNATURE BLOCK ── */
-.sig-row   { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 20px; }
-.sig-block { text-align: center; }
-.sig-line  { font-weight: bold; text-transform: uppercase; border-top: 1px solid #333; padding-top: 3px; margin-top: 50px; font-size: 10pt; display: inline-block; min-width: 195px; font-family: Arial, sans-serif; }
-.sig-pos   { font-size: 10pt; font-family: Arial, sans-serif; }
+.sig-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 20px; }
+.sig-block{ text-align: center; }
+.sig-line { font-weight: bold; text-transform: uppercase; border-top: 1px solid #333;
+            padding-top: 3px; margin-top: 50px; font-size: 10pt; display: inline-block;
+            min-width: 195px; font-family: Arial, sans-serif; }
+.sig-pos  { font-size: 10pt; font-family: Arial, sans-serif; }
 
 /* ── TOR TABLE ── */
 .tor-table    { width: 100%; border-collapse: collapse; font-size: 10pt; margin-top: 6px; font-family: Arial, sans-serif; }
@@ -903,65 +945,19 @@ body { margin: 0; padding: 0; background: #fff; font-family: Arial, sans-serif; 
 
 /* ── PRINT ── */
 @media print {
-  .bond-page { page-break-after: always; break-after: page; box-shadow: none; }
-  .bond-page:last-child { page-break-after: avoid; break-after: avoid; }
-=======
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#fff;font-family:Arial,sans-serif;width:100%;height:100%}
-.bond-pages{display:block;width:100%}
-.bond-page{background:#fff;width:8.5in;height:13in;position:relative;font-family:Arial,sans-serif;font-size:10pt;line-height:1.5;overflow:hidden;page-break-after:always;break-after:page;display:flex;flex-direction:column}
-.bond-page:last-child{page-break-after:avoid;break-after:avoid}
-.right-sigs{position:absolute;right:0;top:110px;bottom:36px;width:80px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;z-index:10}
-.right-sig{display:flex;flex-direction:row;align-items:center;justify-content:center}
-.right-sig-line{border-left:1px solid #333;height:130px;width:0;flex-shrink:0;margin-left:50px}
-.right-sig-inner{display:flex;align-items:center;justify-content:center}
-.right-sig-text{writing-mode:vertical-rl;transform:rotate(180deg);font-size:7pt;line-height:1.3;font-family:Arial,sans-serif;text-align:center;border:none}
-.page-content{padding-right:36pt;position:relative;z-index:5;height:13in;display:flex;flex-direction:column;overflow:hidden}
-.has-sigs .page-content{padding-right:64px}
-.page-header{width:100%}.page-header img{width:100%;height:auto;display:block}
-.page-num{display:none}
-.page-num-bottom{position:absolute;bottom:8px;right:10px;font-size:10pt;color:#333;font-family:Arial,sans-serif;z-index:10}
-.page-body{padding:4pt 0 8pt 18pt;font-size:10pt;font-family:Arial,sans-serif;position:relative;z-index:5}
-.page-body p{margin:0;text-align:justify;font-family:Arial,sans-serif;font-size:10pt}
-.p-title{text-align:center!important;font-size:14pt;font-weight:bold;margin-bottom:2pt!important;margin-top:30pt!important;font-family:Arial,sans-serif}
-.p-center{text-align:center!important;font-size:10pt;margin-top:4pt!important;font-family:Arial,sans-serif}
-.p-body-left{text-indent:22pt;margin-top:8pt!important;text-align:left;font-size:10pt;font-family:Arial,sans-serif}
-.p-body{text-indent:22pt;margin-top:8pt!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
-.p-parties{padding-left:22pt;line-height:1.5;margin-top:0!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
-.p-parties-left{padding-left:22pt;line-height:1.5;margin-top:0!important;text-align:left;font-size:10pt;font-family:Arial,sans-serif}
-.p-whereas{padding-left:80pt;text-indent:45pt;margin-top:2pt!important;text-align:justify;font-size:10pt;line-height:1.4;font-family:Arial,sans-serif}
-.p-whereas-left{padding-left:80pt;text-indent:45pt;margin-top:2pt!important;text-align:left;font-size:10pt;line-height:1.4;font-family:Arial,sans-serif}
-.p-now-therefore{padding-left:31.5pt;margin-top:8pt!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
-.p-num-head{padding-left:0;text-indent:0;margin-top:8pt!important;margin-bottom:2pt!important;font-size:10pt;font-family:Arial,sans-serif}
-.p-num{padding-left:0;text-indent:0;margin-top:6pt!important;font-size:10pt;font-family:Arial,sans-serif}
-.p-num-left{padding-left:0;text-indent:0;margin-top:6pt!important;font-size:10pt;text-align:left;font-family:Arial,sans-serif}
-.p-num-body{padding-left:28pt;text-indent:-28pt;margin-top:3pt!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
-.p-num-body-p{padding-left:28pt;text-indent:0;margin-top:3pt!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
-.p-list{padding-left:56pt;text-indent:0;margin-top:0!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
-.list-num{display:inline-block;width:18pt;text-align:left}
-.p-ab-item{padding-left:28pt;text-indent:0;margin-top:3pt!important;font-size:10pt;font-family:Arial,sans-serif}
-.ab-label{display:inline-block;width:16pt}
-.p-ab-body{padding-left:44pt;text-indent:0;margin-top:1pt!important;text-align:justify;font-size:10pt;font-family:Arial,sans-serif}
-.ef{color:#000;border:none;background:transparent;font-weight:normal}
-.sig-row{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:16px}
-.sig-block{text-align:center}
-.sig-line{font-weight:bold;text-transform:uppercase;border-top:1px solid #333;padding-top:3px;margin-top:40px;font-size:10pt;display:inline-block;min-width:180px;font-family:Arial,sans-serif}
-.sig-pos{font-size:10pt;font-family:Arial,sans-serif}
-.tor-table{width:100%;border-collapse:collapse;font-size:10pt;margin-top:5px;font-family:Arial,sans-serif}
-.tor-table td{border:1px solid #555;padding:4px 7px;vertical-align:top;font-size:10pt;font-family:Arial,sans-serif}
-.tor-label{background:#f0f0f0;font-weight:bold;width:35%;font-size:10pt}
-@page{
-  margin:0;
-  size:8.5in 13in;
->>>>>>> 361cc51159148467625337bb140e461fcdf815f2
+  .bond-pages { display: block !important; width: 8.5in !important; margin: 0 !important; }
+  .bond-page  { width: 8.5in !important; height: 13in !important; overflow: hidden !important;
+                page-break-after: always !important; break-after: page !important; }
+  .bond-page:last-child { page-break-after: avoid !important; break-after: avoid !important; }
 }
 </style>
 </head>
 <body>
-<div class="bond-pages">${pagesHTML}</div>
+<div class="bond-pages">\${pagesHTML}</div>
 </body>
 </html>`
 }
+
 
 function downloadFile(f) {
   if (!viewingContract.value) { toast('No contract open', 'error'); return }
@@ -978,6 +974,13 @@ function downloadFile(f) {
     el.removeAttribute('contenteditable')
     el.style.outline = ''
     el.style.background = ''
+  })
+  clone.querySelectorAll('.ef').forEach(el => {
+    el.style.color = '#000'
+    el.style.fontWeight = 'normal'
+    el.style.borderBottom = 'none'
+    el.style.background = 'transparent'
+    el.style.padding = '0'
   })
 
   const html = buildSavedHTML(clone.outerHTML, c, filename)
